@@ -12,6 +12,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <textField key="tableHeaderView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Twitter Search Query" minimumFontSize="17" id="oyN-Gn-t4Q">
+                            <rect key="frame" x="0.0" y="-30" width="600" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                            <textInputTraits key="textInputTraits" keyboardType="twitter"/>
+                        </textField>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Tweet" textLabel="wCb-F6-LTA" detailTextLabel="omx-mR-gVw" style="IBUITableViewCellStyleSubtitle" id="nmq-oi-Cmv">
                                 <autoresizingMask key="autoresizingMask"/>
@@ -40,6 +46,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="Iha-b3-m8W"/>
+                    <connections>
+                        <outlet property="searchTextField" destination="oyN-Gn-t4Q" id="ain-d8-qvD"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hpj-Xz-1WA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

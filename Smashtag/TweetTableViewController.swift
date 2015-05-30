@@ -8,13 +8,27 @@
 
 import UIKit
 
-class TweetTableViewController: UITableViewController
+class TweetTableViewController: UITableViewController, UITextFieldDelegate
 {
     var tweets = [[Tweet]]()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        let request = TwitterRequest(search: "#stanford", count: 100)
+    @IBOutlet weak var searchTextField: UITextField! {
+        didSet {
+            searchTextField.delegate = self
+            searchTextField.text = searchText
+        }
+    }
+    
+    var searchText: String? = "#stanford" {
+        didSet {
+            tweets.removeAll()
+            tableView.reloadData()
+            refresh()
+        }
+    }
+    
+    private func refresh() {
+        let request = TwitterRequest(search: searchText!, count: 100)
         request.fetchTweets { (newTweets) -> Void in
             dispatch_async(dispatch_get_main_queue()) {
                 if newTweets.count > 0 {
@@ -23,6 +37,19 @@ class TweetTableViewController: UITableViewController
                 }
             }
         }
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if textField == searchTextField {
+            textField.resignFirstResponder()
+            searchText = textField.text
+        }
+        return true
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        refresh()
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
