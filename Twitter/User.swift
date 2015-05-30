@@ -15,7 +15,7 @@ public struct User: Printable
     public let screenName: String
     public let name: String
     public let profileImageURL: NSURL?
-    public let verified: Bool = false
+    public let verified: Bool
     public let id: String!
     
     public var description: String { var v = verified ? " ✅" : ""; return "@\(screenName) (\(name))\(v)" }
@@ -31,15 +31,19 @@ public struct User: Printable
             self.id = data?.valueForKeyPath(TwitterKey.ID) as? String
             if let verified = data?.valueForKeyPath(TwitterKey.Verified)?.boolValue {
                 self.verified = verified
+            } else {
+                self.verified = false
             }
             if let urlString = data?.valueForKeyPath(TwitterKey.ProfileImageURL) as? String {
                 self.profileImageURL = NSURL(string: urlString)
+            } else {
+                self.profileImageURL = nil
             }
-        } else {
-            return nil
+            return
         }
+        return nil
     }
-    
+
     var asPropertyList: AnyObject {
         var dictionary = Dictionary<String,String>()
         dictionary[TwitterKey.Name] = self.name
@@ -54,6 +58,9 @@ public struct User: Printable
     init() {
         screenName = "Unknown"
         name = "Unknown"
+        verified = false
+        id = nil
+        profileImageURL = nil
     }
     
     struct TwitterKey {

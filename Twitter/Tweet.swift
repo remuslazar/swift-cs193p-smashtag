@@ -20,10 +20,10 @@ public class Tweet : Printable
     public let user: User
     public let created: NSDate
     public let id: String?
-    public let media = [MediaItem]()
-    public let hashtags = [IndexedKeyword]()
-    public let urls = [IndexedKeyword]()
-    public let userMentions = [IndexedKeyword]()
+    public let media: [MediaItem]
+    public let hashtags: [IndexedKeyword]
+    public let urls: [IndexedKeyword]
+    public let userMentions: [IndexedKeyword]
 
     public struct IndexedKeyword: Printable
     {
@@ -35,13 +35,13 @@ public class Tweet : Printable
             let indices = data?.valueForKeyPath(TwitterKey.Entities.Indices) as? NSArray
             if let startIndex = (indices?.firstObject as? NSNumber)?.integerValue {
                 if let endIndex = (indices?.lastObject as? NSNumber)?.integerValue {
-                    let length = countElements(inText)
+                    let length = count(inText)
                     if length > 0 {
                         let start = max(min(startIndex, length-1), 0)
                         let end = max(min(endIndex, length), 0)
                         if end > start {
-                            range = advance(inText.startIndex, start)...advance(inText.startIndex, end-1)
-                            keyword = inText.substringWithRange(range)
+                            var range = advance(inText.startIndex, start)...advance(inText.startIndex, end-1)
+                            var keyword = inText.substringWithRange(range)
                             if prefix != nil && !keyword.hasPrefix(prefix!) && start > 0 {
                                 range = advance(inText.startIndex, start-1)...advance(inText.startIndex, end-2)
                                 keyword = inText.substringWithRange(range)
@@ -49,6 +49,8 @@ public class Tweet : Printable
                             if prefix == nil || keyword.hasPrefix(prefix!) {
                                 nsrange = inText.rangeOfString(keyword, nearRange: NSMakeRange(startIndex, endIndex-startIndex))
                                 if nsrange.location != NSNotFound {
+                                    self.keyword = keyword
+                                    self.range = range
                                     return
                                 }
                             }
@@ -67,41 +69,47 @@ public class Tweet : Printable
     // MARK: - Private Implementation
 
     init?(data: NSDictionary?) {
-        if let user = User(data: data?.valueForKeyPath(TwitterKey.User) as? NSDictionary) {
+        if let user = User(data: data?.valueForKeyPath(TwitterKey.User) as? NSDictionary)
+            , text = data?.valueForKeyPath(TwitterKey.Text) as? String
+            , created = (data?.valueForKeyPath(TwitterKey.Created) as? String)?.asTwitterDate
+        {
             self.user = user
-            if let text = data?.valueForKeyPath(TwitterKey.Text) as? String {
-                self.text = text
-                if let created = (data?.valueForKeyPath(TwitterKey.Created) as? String)?.asTwitterDate {
-                    self.created = created
-                    id = data?.valueForKeyPath(TwitterKey.ID) as? String
-                    if let mediaEntities = data?.valueForKeyPath(TwitterKey.Media) as? NSArray {
-                        for mediaData in mediaEntities {
-                            if let mediaItem = MediaItem(data: mediaData as? NSDictionary) {
-                                media.append(mediaItem)
-                            }
-                        }
+            self.text = text
+            self.created = created
+            id = data?.valueForKeyPath(TwitterKey.ID) as? String
+            var media = [MediaItem]()
+            if let mediaEntities = data?.valueForKeyPath(TwitterKey.Media) as? NSArray {
+                for mediaData in mediaEntities {
+                    if let mediaItem = MediaItem(data: mediaData as? NSDictionary) {
+                        media.append(mediaItem)
                     }
-                    let hashtagMentionsArray = data?.valueForKeyPath(TwitterKey.Entities.Hashtags) as? NSArray
-                    hashtags = getIndexedKeywords(hashtagMentionsArray, inText: text, prefix: "#")
-                    let urlMentionsArray = data?.valueForKeyPath(TwitterKey.Entities.URLs) as? NSArray
-                    urls = getIndexedKeywords(urlMentionsArray, inText: text, prefix: "h")
-                    let userMentionsArray = data?.valueForKeyPath(TwitterKey.Entities.UserMentions) as? NSArray
-                    userMentions = getIndexedKeywords(userMentionsArray, inText: text, prefix: "@")
-                    return
                 }
             }
+            self.media = media
+            let hashtagMentionsArray = data?.valueForKeyPath(TwitterKey.Entities.Hashtags) as? NSArray
+            self.hashtags = Tweet.getIndexedKeywords(hashtagMentionsArray, inText: text, prefix: "#")
+            let urlMentionsArray = data?.valueForKeyPath(TwitterKey.Entities.URLs) as? NSArray
+            self.urls = Tweet.getIndexedKeywords(urlMentionsArray, inText: text, prefix: "h")
+            let userMentionsArray = data?.valueForKeyPath(TwitterKey.Entities.UserMentions) as? NSArray
+            self.userMentions = Tweet.getIndexedKeywords(userMentionsArray, inText: text, prefix: "@")
+            return
         }
         // we've failed
         // but compiler won't let us out of here with non-optional values unset
         // so set them to anything just to able to return nil
         // we could make these implicitly-unwrapped optionals, but they should never be nil, ever
-        self.text = ""
         self.user = User()
+        self.text = ""
         self.created = NSDate()
+        self.id = nil
+        self.media = []
+        self.hashtags = []
+        self.urls = []
+        self.userMentions = []
         return nil
     }
 
-    private func getIndexedKeywords(dictionary: NSArray?, inText: String, prefix: String? = nil) -> [IndexedKeyword] {
+    class private func getIndexedKeywords(dictionary: NSArray?, inText: String, prefix: String? = nil) -> [IndexedKeyword] {
         var results = [IndexedKeyword]()
         if let indexedKeywords = dictionary {
             for indexedKeywordData in indexedKeywords {
@@ -134,7 +142,7 @@ private extension NSString {
         var end = max(min(nearRange.location + nearRange.length, length), 0)
         var done = false
         while !done {
-            let range = rangeOfString(substring, options: NSStringCompareOptions.allZeros, range: NSMakeRange(start, end-start))
+            let range = rangeOfString(substring as String, options: NSStringCompareOptions.allZeros, range: NSMakeRange(start, end-start))
             if range.location != NSNotFound {
                 return range
             }
@@ -150,6 +158,7 @@ private extension String {
     var asTwitterDate: NSDate? {
         get {
             let dateFormatter = NSDateFormatter()
+            dateFormatter.locale = NSLocale(localeIdentifier: "C")
             dateFormatter.dateFormat = "EEE MMM dd HH:mm:ss Z yyyy"
             return dateFormatter.dateFromString(self)
         }
