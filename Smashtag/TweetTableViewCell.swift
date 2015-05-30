@@ -8,6 +8,12 @@
 
 import UIKit
 
+private struct Colors {
+    static let hashtag = UIColor.brownColor()
+    static let url = UIColor.blueColor()
+    static let screenName = UIColor.grayColor()
+}
+
 class TweetTableViewCell: UITableViewCell
 {
     var tweet: Tweet? {
@@ -24,7 +30,7 @@ class TweetTableViewCell: UITableViewCell
         
         // load new information from our tweet (if any)
         if let tweet = self.tweet {
-            tweetTextLabel?.text = tweet.text
+            tweetTextLabel?.attributedText = tweet.attributedText
             if tweetTextLabel?.text != nil {
                 for _ in tweet.media {
                     tweetTextLabel.text! += " 📷"
@@ -43,10 +49,31 @@ class TweetTableViewCell: UITableViewCell
         
     }
     
-    
-    
     @IBOutlet weak var tweetProfileImageView: UIImageView!
     @IBOutlet weak var tweetScreenNameLabel: UILabel!
     @IBOutlet weak var tweetTextLabel: UILabel!
+    
+}
 
+private extension Tweet {
+    var attributedText: NSAttributedString {
+        let attributedString = NSMutableAttributedString(string: text, attributes: [
+            // make sure we're using the preferred font for body text
+            NSFontAttributeName: UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+            ]
+        )
+        for tag in hashtags {
+            attributedString.addAttribute(NSForegroundColorAttributeName,
+                value: Colors.hashtag, range: tag.nsrange)
+        }
+        for tag in urls {
+            attributedString.addAttribute(NSForegroundColorAttributeName,
+                value: Colors.url, range: tag.nsrange)
+        }
+        for tag in userMentions {
+            attributedString.addAttribute(NSForegroundColorAttributeName,
+                value: Colors.screenName, range: tag.nsrange)
+        }
+        return attributedString
+    }
 }
