@@ -21,22 +21,50 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate
     
     var searchText: String? = "#stanford" {
         didSet {
+            lastSuccessfullRequest = nil
             tweets.removeAll()
             tableView.reloadData()
             refresh()
         }
     }
     
-    private func refresh() {
-        let request = TwitterRequest(search: searchText!, count: 100)
-        request.fetchTweets { (newTweets) -> Void in
-            dispatch_async(dispatch_get_main_queue()) {
-                if newTweets.count > 0 {
-                    self.tweets.insert(newTweets, atIndex: 0)
-                    self.tableView.reloadData()
+    @IBAction func refresh(sender: UIRefreshControl?) {
+        if searchText != nil {
+            if let request = nextRequestToAttempt {
+                request.fetchTweets { (newTweets) -> Void in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        if newTweets.count > 0 {
+                            self.tweets.insert(newTweets, atIndex: 0)
+                            self.tableView.reloadData()
+                        }
+                        sender?.endRefreshing()
+                    }
                 }
             }
+        } else {
+            sender?.endRefreshing()
         }
+    }
+
+    var lastSuccessfullRequest: TwitterRequest?
+    
+    var nextRequestToAttempt: TwitterRequest? {
+        if lastSuccessfullRequest == nil {
+            if searchText != nil {
+                return TwitterRequest(search: searchText!, count: 100)
+            } else {
+                return nil
+            }
+        } else {
+            return lastSuccessfullRequest!.requestForNewer
+        }
+    }
+    
+    private func refresh() {
+        if refreshControl != nil {
+            refreshControl?.beginRefreshing()
+        }
+        refresh(refreshControl)
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
