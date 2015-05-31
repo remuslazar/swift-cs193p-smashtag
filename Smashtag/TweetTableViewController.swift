@@ -106,6 +106,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate
     }
 
     private struct Storyboard {
+        static let ShowTweetSegueIdentifier = "Show Tweet"
         static let CellReuseIdentifier = "Tweet"
     }
     
@@ -117,7 +118,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate
         
         return cell
     }
-
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -134,7 +135,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
     }
     */
 
@@ -162,5 +163,18 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate
         // Pass the selected object to the new view controller.
     }
     */
+    
+    // MARK: - Segue
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == Storyboard.ShowTweetSegueIdentifier {
+            if let tweetTVC = segue.destinationViewController as? TweetDetailTableViewController,
+                cell = sender as? TweetTableViewCell,
+                indexPath = tableView.indexPathForCell(cell)
+            {
+                tweetTVC.tweet = tweets[indexPath.section][indexPath.row] ?? nil
+            }
+        }
+    }
 
 }
