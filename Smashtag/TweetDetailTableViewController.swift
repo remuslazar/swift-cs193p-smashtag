@@ -117,6 +117,11 @@ class TweetDetailTableViewController: UITableViewController, UITableViewDelegate
         switch(data) {
         case .Keyword:
             performSegueWithIdentifier(Storyboard.NewSearchSegueIdentifier, sender: tableView.cellForRowAtIndexPath(indexPath))
+        case .URL(let url):
+            if let url = NSURL(string: url) {
+                UIApplication.sharedApplication().openURL(url)
+            }
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
         default: break
         }
     }
