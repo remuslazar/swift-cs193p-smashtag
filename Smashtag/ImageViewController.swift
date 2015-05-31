@@ -68,15 +68,35 @@ class ImageViewController: UIViewController, UIScrollViewDelegate
         }
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if (!userDidDragOrScroll && scrollView != nil && imageView.image != nil) {
+            scaleContentPanAndScan()
+        }
+    }
+    
     // UIScrollViewDelegate method
     // required for zooming
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
         return imageView
     }
     
+    var userDidDragOrScroll = false
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        userDidDragOrScroll = true
+    }
+    
+    func scrollViewWillBeginZooming(scrollView: UIScrollView, withView view: UIView!) {
+        userDidDragOrScroll = true
+    }
+    
     // do a pan-and-scan zooming of the content area
     private func scaleContentPanAndScan() {
-        scrollView.contentSize = imageView.bounds.size
+
+        // reset the scrollView to the initial state
+        scrollView.contentOffset = CGPointZero
+        scrollView.zoomScale = 1.0
         
         let content = scrollView.contentSize
         let viewport = scrollView.bounds.size
