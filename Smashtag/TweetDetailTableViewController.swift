@@ -15,17 +15,17 @@ class TweetDetailTableViewController: UITableViewController {
     var tweet: Tweet? {
         didSet {
             tweetInfo.removeAll()
+            if let media = tweet?.media where tweet!.media.count > 0 {
+                tweetInfo.append(Mention(title: "Images", data: media.map { Mention.Data.Image($0.url, aspectRatio: $0.aspectRatio) }))
+            }
             if let hashtags = tweet?.hashtags where tweet!.hashtags.count > 0 {
                 tweetInfo.append(Mention(title: "Hashtags", data: hashtags.map { return Mention.Data.Keyword($0.keyword) }))
-            }
-            if let userMentions = tweet?.userMentions where tweet!.userMentions.count > 0 {
-                tweetInfo.append(Mention(title: "Users", data: userMentions.map { return Mention.Data.Keyword($0.keyword) }))
             }
             if let urls = tweet?.urls where tweet!.urls.count > 0 {
                 tweetInfo.append(Mention(title: "URLs", data: urls.map { return Mention.Data.Keyword($0.keyword) }))
             }
-            if let media = tweet?.media where tweet!.media.count > 0 {
-                tweetInfo.append(Mention(title: "Images", data: media.map { Mention.Data.Image($0.url, aspectRatio: $0.aspectRatio) }))
+            if let userMentions = tweet?.userMentions where tweet!.userMentions.count > 0 {
+                tweetInfo.append(Mention(title: "Users", data: userMentions.map { return Mention.Data.Keyword($0.keyword) }))
             }
             tableView?.reloadData()
         }
@@ -43,6 +43,11 @@ class TweetDetailTableViewController: UITableViewController {
     }
     
     private var tweetInfo = [Mention]()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.rowHeight = UITableViewAutomaticDimension
+    }
     
     // MARK: - Table view data source
 
@@ -75,16 +80,24 @@ class TweetDetailTableViewController: UITableViewController {
             return cell
         case .Image(let url, _):
             let cell = tableView.dequeueReusableCellWithIdentifier(Storyboard.ImageCellReuseIdentifier,
-                forIndexPath: indexPath) as! UITableViewCell
-            // todo: implement image cell
-            cell.textLabel?.text = url.description
+                forIndexPath: indexPath) as! ImageTableViewCell
+            if let data = NSData(contentsOfURL: url) { // blocks the main thread!! todo: refactor
+                cell.photo = UIImage(data: data)
+            }
             return cell
-            
         }
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        let mention = tweetInfo[indexPath.section]
+        let data = mention.data[indexPath.row]
+        
+        switch(data) {
+        case .Image(let url, aspectRatio: let ratio):
+            return view.bounds.width / CGFloat(ratio)
+            
+        default: return UITableViewAutomaticDimension
+        }
     }
     
 }
