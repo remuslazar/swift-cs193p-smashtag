@@ -20,6 +20,7 @@
 		D8F754511B1A086300C1D82E /* TweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F754501B1A086300C1D82E /* TweetTableViewCell.swift */; };
 		D8F754531B1A4CBE00C1D82E /* TweetDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F754521B1A4CBE00C1D82E /* TweetDetailTableViewController.swift */; };
 		D8F754551B1ADBF100C1D82E /* ImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F754541B1ADBF100C1D82E /* ImageTableViewCell.swift */; };
+		D8F754571B1B0AFB00C1D82E /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F754561B1B0AFB00C1D82E /* ImageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		D8F754501B1A086300C1D82E /* TweetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetTableViewCell.swift; sourceTree = "<group>"; };
 		D8F754521B1A4CBE00C1D82E /* TweetDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetDetailTableViewController.swift; sourceTree = "<group>"; };
 		D8F754541B1ADBF100C1D82E /* ImageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageTableViewCell.swift; path = Smashtag/ImageTableViewCell.swift; sourceTree = SOURCE_ROOT; };
+		D8F754561B1B0AFB00C1D82E /* ImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 		D8F754121B19C71600C1D82E /* Smashtag */ = {
 			isa = PBXGroup;
 			children = (
+				D8F754561B1B0AFB00C1D82E /* ImageViewController.swift */,
 				D8F7544E1B1A047900C1D82E /* TweetTableViewController.swift */,
 				D8F754151B19C71600C1D82E /* AppDelegate.swift */,
 				D8F754191B19C71600C1D82E /* Main.storyboard */,
@@ -243,6 +246,7 @@
 			files = (
 				D8F7544C1B1A022E00C1D82E /* TwitterRequest.swift in Sources */,
 				D8F7544D1B1A022E00C1D82E /* User.swift in Sources */,
+				D8F754571B1B0AFB00C1D82E /* ImageViewController.swift in Sources */,
 				D8F754531B1A4CBE00C1D82E /* TweetDetailTableViewController.swift in Sources */,
 				D8F754551B1ADBF100C1D82E /* ImageTableViewCell.swift in Sources */,
 				D8F754161B19C71600C1D82E /* AppDelegate.swift in Sources */,

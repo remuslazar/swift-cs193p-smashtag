@@ -69,6 +69,7 @@ class TweetDetailTableViewController: UITableViewController, UITableViewDelegate
         static let TextCellReuseIdentifier = "Text"
         static let ImageCellReuseIdentifier = "Image"
         static let NewSearchSegueIdentifier = "New Search"
+        static let ShowImageSegueIdentifier = "Show Image"
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -121,21 +122,42 @@ class TweetDetailTableViewController: UITableViewController, UITableViewDelegate
             if let url = NSURL(string: url) {
                 UIApplication.sharedApplication().openURL(url)
             }
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
         default: break
         }
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
     // MARK: - Segue
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let tweetVC = segue.destinationViewController as? TweetTableViewController,
-        cell = sender as? UITableViewCell
-        {
-            if let searchText = cell.textLabel?.text {
-                tweetVC.searchText = searchText
+        
+        if let identifier = segue.identifier {
+            switch(identifier) {
+            case Storyboard.NewSearchSegueIdentifier:
+                if let tweetVC = segue.destinationViewController as? TweetTableViewController,
+                    cell = sender as? UITableViewCell
+                {
+                    if let searchText = cell.textLabel?.text {
+                        tweetVC.searchText = searchText
+                    }
+                }
+            case Storyboard.ShowImageSegueIdentifier:
+                if let imageVC = segue.destinationViewController as? ImageViewController,
+                cell = sender as? UITableViewCell,
+                indexPath = tableView.indexPathForCell(cell)
+                {
+                    let data = tweetInfo[indexPath.section].data[indexPath.row]
+                    switch(data) {
+                    case .Image(let url, aspectRatio: let aspectRatio):
+                        imageVC.imageURL = url
+                    default: break
+                    }
+                }
+            default: break
             }
         }
+        
     }
     
 }
