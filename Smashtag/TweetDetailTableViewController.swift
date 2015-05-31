@@ -132,10 +132,16 @@ class TweetDetailTableViewController: UITableViewController, UITableViewDelegate
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
+        var destinationViewController = segue.destinationViewController as? UIViewController
+        
+        if let dvc = destinationViewController as? UINavigationController {
+            destinationViewController = dvc.visibleViewController
+        }
+        
         if let identifier = segue.identifier {
             switch(identifier) {
             case Storyboard.NewSearchSegueIdentifier:
-                if let tweetVC = segue.destinationViewController as? TweetTableViewController,
+                if let tweetVC = destinationViewController as? TweetTableViewController,
                     cell = sender as? UITableViewCell
                 {
                     if let searchText = cell.textLabel?.text {
@@ -143,7 +149,7 @@ class TweetDetailTableViewController: UITableViewController, UITableViewDelegate
                     }
                 }
             case Storyboard.ShowImageSegueIdentifier:
-                if let imageVC = segue.destinationViewController as? ImageViewController,
+                if let imageVC = destinationViewController as? ImageViewController,
                 cell = sender as? UITableViewCell,
                 indexPath = tableView.indexPathForCell(cell)
                 {

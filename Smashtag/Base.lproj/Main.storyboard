@@ -113,7 +113,7 @@
                                 <connections>
                                     <outlet property="imageView" destination="973-qt-zv8" id="JP5-hz-9gF"/>
                                     <outlet property="photoImageView" destination="973-qt-zv8" id="v0R-35-2Rg"/>
-                                    <segue destination="uVs-mM-hG4" kind="show" identifier="Show Image" id="xKH-Gu-6jr"/>
+                                    <segue destination="ukk-GT-Pic" kind="show" identifier="Show Image" id="xKH-Gu-6jr"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Text" textLabel="xWc-gr-9ad" style="IBUITableViewCellStyleDefault" id="Ajd-v0-8Ax">
@@ -175,12 +175,12 @@
                         <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WMN-vH-oxr">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                            </scrollView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Lgw-Ej-x6W">
                                 <rect key="frame" x="290" y="290" width="20" height="20"/>
                             </activityIndicatorView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WMN-vH-oxr">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -192,6 +192,7 @@
                             <constraint firstItem="WMN-vH-oxr" firstAttribute="leading" secondItem="M5o-GA-Ynt" secondAttribute="leading" id="wga-hN-G1H"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="jNT-yi-E1y"/>
                     <connections>
                         <outlet property="scrollView" destination="WMN-vH-oxr" id="s3r-Hj-Bvy"/>
                         <outlet property="spinner" destination="Lgw-Ej-x6W" id="Cmi-er-z7f"/>
@@ -199,7 +200,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dJ4-s8-4Dw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3195" y="150"/>
+            <point key="canvasLocation" x="4121" y="416"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="jyl-WO-wzh">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ukk-GT-Pic" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wme-2x-1xR">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="uVs-mM-hG4" kind="relationship" relationship="rootViewController" id="v7I-Yz-7TA"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AQa-8e-M0q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3309" y="416"/>
         </scene>
     </scenes>
 </document>
