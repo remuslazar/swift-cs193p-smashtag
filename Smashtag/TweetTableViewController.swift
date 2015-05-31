@@ -172,7 +172,9 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate
                 cell = sender as? TweetTableViewCell,
                 indexPath = tableView.indexPathForCell(cell)
             {
-                tweetTVC.tweet = tweets[indexPath.section][indexPath.row] ?? nil
+                let tweet = tweets[indexPath.section][indexPath.row]
+                tweetTVC.tweet = tweet
+                tweetTVC.title = tweet.description
             }
         }
     }
