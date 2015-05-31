@@ -135,8 +135,12 @@
                             <outlet property="delegate" destination="wIp-bL-4uS" id="77m-Zb-cBs"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="KZc-AW-77m" kind="unwind" identifier="New Search" unwindAction="performNewSearch:" id="bmD-16-Ayq"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9To-K7-qzl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="KZc-AW-77m" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2472" y="416"/>
         </scene>

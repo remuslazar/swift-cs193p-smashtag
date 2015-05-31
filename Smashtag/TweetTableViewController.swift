@@ -12,11 +12,17 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate
 {
     var tweets = [[Tweet]]()
 
+    // MARK: - Outlets
+    
     @IBOutlet weak var searchTextField: UITextField! {
         didSet {
             searchTextField.delegate = self
             searchTextField.text = searchText
         }
+    }
+    
+    @IBAction func performNewSearch(segue: UIStoryboardSegue) {
+        searchTextField.text = searchText
     }
     
     var searchText: String? = "#stanford" {
@@ -167,14 +173,18 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate
     // MARK: - Segue
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == Storyboard.ShowTweetSegueIdentifier {
-            if let tweetTVC = segue.destinationViewController as? TweetDetailTableViewController,
-                cell = sender as? TweetTableViewCell,
-                indexPath = tableView.indexPathForCell(cell)
-            {
-                let tweet = tweets[indexPath.section][indexPath.row]
-                tweetTVC.tweet = tweet
-                tweetTVC.title = tweet.description
+        if let identifier = segue.identifier {
+            switch(identifier) {
+            case Storyboard.ShowTweetSegueIdentifier:
+                if let tweetTVC = segue.destinationViewController as? TweetDetailTableViewController,
+                    cell = sender as? TweetTableViewCell,
+                    indexPath = tableView.indexPathForCell(cell)
+                {
+                    let tweet = tweets[indexPath.section][indexPath.row]
+                    tweetTVC.tweet = tweet
+                    tweetTVC.title = tweet.description
+                }
+            default: break
             }
         }
     }

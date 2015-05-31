@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TweetDetailTableViewController: UITableViewController {
+class TweetDetailTableViewController: UITableViewController, UITableViewDelegate {
 
     // MARK: - Public API
 
@@ -22,7 +22,7 @@ class TweetDetailTableViewController: UITableViewController {
                 tweetInfo.append(Mention(title: "Hashtags", data: hashtags.map { return Mention.Data.Keyword($0.keyword) }))
             }
             if let urls = tweet?.urls where tweet!.urls.count > 0 {
-                tweetInfo.append(Mention(title: "URLs", data: urls.map { return Mention.Data.Keyword($0.keyword) }))
+                tweetInfo.append(Mention(title: "URLs", data: urls.map { return Mention.Data.URL($0.keyword) }))
             }
             if let userMentions = tweet?.userMentions where tweet!.userMentions.count > 0 {
                 tweetInfo.append(Mention(title: "Users", data: userMentions.map { return Mention.Data.Keyword($0.keyword) }))
@@ -36,6 +36,7 @@ class TweetDetailTableViewController: UITableViewController {
     private struct Mention {
         private enum Data {
             case Keyword(String)
+            case URL(String)
             case Image(NSURL, aspectRatio: Double)
         }
         let title: String
@@ -47,6 +48,7 @@ class TweetDetailTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.delegate = self
     }
     
     // MARK: - Table view data source
@@ -66,6 +68,7 @@ class TweetDetailTableViewController: UITableViewController {
     private struct Storyboard {
         static let TextCellReuseIdentifier = "Text"
         static let ImageCellReuseIdentifier = "Image"
+        static let NewSearchSegueIdentifier = "New Search"
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -77,6 +80,11 @@ class TweetDetailTableViewController: UITableViewController {
             let cell = tableView.dequeueReusableCellWithIdentifier(Storyboard.TextCellReuseIdentifier,
                 forIndexPath: indexPath) as! UITableViewCell
             cell.textLabel?.text = keyword
+            return cell
+        case .URL(let url):
+            let cell = tableView.dequeueReusableCellWithIdentifier(Storyboard.TextCellReuseIdentifier,
+                forIndexPath: indexPath) as! UITableViewCell
+            cell.textLabel?.text = url
             return cell
         case .Image(let url, _):
             let cell = tableView.dequeueReusableCellWithIdentifier(Storyboard.ImageCellReuseIdentifier,
@@ -97,6 +105,31 @@ class TweetDetailTableViewController: UITableViewController {
             return view.bounds.width / CGFloat(ratio)
             
         default: return UITableViewAutomaticDimension
+        }
+    }
+
+    // MARK: - TableViewDelegate
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let mention = tweetInfo[indexPath.section]
+        let data = mention.data[indexPath.row]
+        
+        switch(data) {
+        case .Keyword:
+            performSegueWithIdentifier(Storyboard.NewSearchSegueIdentifier, sender: tableView.cellForRowAtIndexPath(indexPath))
+        default: break
+        }
+    }
+    
+    // MARK: - Segue
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let tweetVC = segue.destinationViewController as? TweetTableViewController,
+        cell = sender as? UITableViewCell
+        {
+            if let searchText = cell.textLabel?.text {
+                tweetVC.searchText = searchText
+            }
         }
     }
     
