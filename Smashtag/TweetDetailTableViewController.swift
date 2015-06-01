@@ -47,7 +47,6 @@ class TweetDetailTableViewController: UITableViewController, UITableViewDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.rowHeight = UITableViewAutomaticDimension
         tableView.delegate = self
     }
     
@@ -90,9 +89,7 @@ class TweetDetailTableViewController: UITableViewController, UITableViewDelegate
         case .Image(let url, _):
             let cell = tableView.dequeueReusableCellWithIdentifier(Storyboard.ImageCellReuseIdentifier,
                 forIndexPath: indexPath) as! ImageTableViewCell
-            if let data = NSData(contentsOfURL: url) { // blocks the main thread!! todo: refactor
-                cell.photo = UIImage(data: data)
-            }
+            cell.photoURL = url
             return cell
         }
     }

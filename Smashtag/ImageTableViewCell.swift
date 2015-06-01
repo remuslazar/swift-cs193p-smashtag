@@ -12,16 +12,38 @@ class ImageTableViewCell: UITableViewCell {
 
     // MARK: - Public API
     
-    var photo: UIImage? {
+    var photoURL: NSURL? {
+        didSet {
+            spinner.startAnimating()
+            if let url = photoURL {
+                dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.value), 0)) {
+                    let data = NSData(contentsOfURL: url)
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.spinner.stopAnimating()
+                        if data != nil && url == self.photoURL {
+                            self.photo = UIImage(data: data!)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private var photo: UIImage? {
         didSet {
             photoImageView?.image = photo
         }
     }
     
-    @IBOutlet weak var photoImageView: UIImageView! {
+    // MARK: - Outlets
+    
+    @IBOutlet weak private var photoImageView: UIImageView! {
         didSet {
-            photoImageView.image = photo
+            if photo != nil {
+                photoImageView?.image = photo
+            }
         }
     }
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     
 }
