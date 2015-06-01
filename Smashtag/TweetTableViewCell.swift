@@ -40,9 +40,16 @@ class TweetTableViewCell: UITableViewCell
             tweetScreenNameLabel?.text = "\(tweet.user)" // tweet user description
             
             if let profileImageURL = tweet.user.profileImageURL {
-                if let imageData = NSData(contentsOfURL: profileImageURL) {
-                    // blocks the main thread!!
-                    tweetProfileImageView?.image = UIImage(data: imageData)
+                tweetProfileImageView?.image = nil
+                dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.value), 0)) {
+                    let imageData = NSData(contentsOfURL: profileImageURL)
+                    dispatch_async(dispatch_get_main_queue()) {
+                        if imageData != nil && profileImageURL == tweet.user.profileImageURL {
+                            // the cell may have been reused, so we check if the url we fetched is still
+                            // the correct url for the current cell
+                            self.tweetProfileImageView?.image = UIImage(data: imageData!)
+                        }
+                    }
                 }
             }
         }
