@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D8E0C0871B1CF6BA00E5AAA9 /* SearchHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E0C0861B1CF6BA00E5AAA9 /* SearchHistory.swift */; };
+		D8E0C0891B1D051100E5AAA9 /* SearchHistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E0C0881B1D051100E5AAA9 /* SearchHistoryTableViewController.swift */; };
 		D8F754161B19C71600C1D82E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F754151B19C71600C1D82E /* AppDelegate.swift */; };
 		D8F7541B1B19C71600C1D82E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8F754191B19C71600C1D82E /* Main.storyboard */; };
 		D8F7541D1B19C71600C1D82E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8F7541C1B19C71600C1D82E /* Images.xcassets */; };
@@ -34,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D8E0C0861B1CF6BA00E5AAA9 /* SearchHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchHistory.swift; sourceTree = "<group>"; };
+		D8E0C0881B1D051100E5AAA9 /* SearchHistoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchHistoryTableViewController.swift; sourceTree = "<group>"; };
 		D8F754101B19C71600C1D82E /* Smashtag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Smashtag.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8F754141B19C71600C1D82E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D8F754151B19C71600C1D82E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -101,6 +105,8 @@
 				D8F754191B19C71600C1D82E /* Main.storyboard */,
 				D8F754521B1A4CBE00C1D82E /* TweetDetailTableViewController.swift */,
 				D8F754501B1A086300C1D82E /* TweetTableViewCell.swift */,
+				D8E0C0861B1CF6BA00E5AAA9 /* SearchHistory.swift */,
+				D8E0C0881B1D051100E5AAA9 /* SearchHistoryTableViewController.swift */,
 				D8F7541C1B19C71600C1D82E /* Images.xcassets */,
 				D8F7541E1B19C71600C1D82E /* LaunchScreen.xib */,
 				D8F754131B19C71600C1D82E /* Supporting Files */,
@@ -244,6 +250,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8E0C0891B1D051100E5AAA9 /* SearchHistoryTableViewController.swift in Sources */,
+				D8E0C0871B1CF6BA00E5AAA9 /* SearchHistory.swift in Sources */,
 				D8F7544C1B1A022E00C1D82E /* TwitterRequest.swift in Sources */,
 				D8F7544D1B1A022E00C1D82E /* User.swift in Sources */,
 				D8F754571B1B0AFB00C1D82E /* ImageViewController.swift in Sources */,

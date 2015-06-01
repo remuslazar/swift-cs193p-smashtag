@@ -31,6 +31,9 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate
             tweets.removeAll()
             tableView.reloadData()
             refresh()
+            if let search = searchText {
+                searchHistory.append(search)
+            }
         }
     }
     
@@ -53,6 +56,8 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate
     }
 
     var lastSuccessfullRequest: TwitterRequest?
+    
+    let searchHistory = SearchHistory()
     
     var nextRequestToAttempt: TwitterRequest? {
         if lastSuccessfullRequest == nil {
