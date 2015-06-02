@@ -116,7 +116,7 @@ class ImageViewController: UIViewController, UIScrollViewDelegate
         
         // set it to the scaleFactor, but also allow 1:1 zooming, if the image is highres
         // this allows also lowres images to be displayed full-screen
-//        scrollView.maximumZoomScale = max(1.0, scaleFactor)
+        scrollView.maximumZoomScale = max(1.0, scaleFactor)
 
         // dont allow to zoom our more than letterbox aspect ratio
         scrollView.minimumZoomScale = minimumZoomScale
@@ -145,12 +145,7 @@ class ImageViewController: UIViewController, UIScrollViewDelegate
         }
     }
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        parentViewController?.navigationController?.navigationBar.hidden = true
-        parentViewController?.tabBarController?.tabBar.hidden = true
-    }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if (!userDidDragOrScroll && scrollView != nil && imageView.image != nil) {
@@ -165,7 +160,10 @@ class ImageViewController: UIViewController, UIScrollViewDelegate
         super.viewDidLoad()
         scrollView.addSubview(imageView)
         view.addGestureRecognizer(doubleTapGestureRecognizer)
-
+    }
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return true
     }
     
     // for efficiency, we will only actually fetch the image
@@ -175,12 +173,6 @@ class ImageViewController: UIViewController, UIScrollViewDelegate
         if image == nil {
             fetchImage()
         }
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        parentViewController?.navigationController?.navigationBar.hidden = false
-        parentViewController?.tabBarController?.tabBar.hidden = false
     }
     
     private let doubleTapGestureRecognizer: UITapGestureRecognizer = {
@@ -196,18 +188,10 @@ class ImageViewController: UIViewController, UIScrollViewDelegate
         }
     }
     
-    private func toggleFullScreen() {
-//        scrollView.bounds = UIScreen.mainScreen().bounds
-        if let tabBar = parentViewController?.tabBarController?.tabBar {
-            parentViewController?.navigationController?.navigationBar.hidden = !tabBar.hidden
-            tabBar.hidden = !tabBar.hidden
-        }
-        scrollView.setNeedsLayout()
-    }
     
     @IBAction func tapGesture(sender: UITapGestureRecognizer) {
         if sender.state == UIGestureRecognizerState.Ended {
-            toggleFullScreen()
+            presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
         }
     }
     

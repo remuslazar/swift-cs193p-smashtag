@@ -94,7 +94,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="0.0" shouldIndentWhileEditing="NO" reuseIdentifier="Image" rowHeight="287" id="Cf0-pP-DT3" customClass="ImageTableViewCell" customModule="Smashtag" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" shouldIndentWhileEditing="NO" reuseIdentifier="Image" rowHeight="287" id="Cf0-pP-DT3" customClass="ImageTableViewCell" customModule="Smashtag" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Cf0-pP-DT3" id="Jcy-Yb-TO5">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -120,7 +120,7 @@
                                     <outlet property="imageView" destination="973-qt-zv8" id="JP5-hz-9gF"/>
                                     <outlet property="photoImageView" destination="973-qt-zv8" id="v0R-35-2Rg"/>
                                     <outlet property="spinner" destination="Z8j-Bc-MCn" id="nan-tq-kRy"/>
-                                    <segue destination="ukk-GT-Pic" kind="show" identifier="Show Image" id="xKH-Gu-6jr"/>
+                                    <segue destination="uVs-mM-hG4" kind="presentation" identifier="Show Image" modalTransitionStyle="crossDissolve" id="FZi-0b-X6b"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Text" textLabel="xWc-gr-9ad" style="IBUITableViewCellStyleDefault" id="Ajd-v0-8Ax">
@@ -150,7 +150,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9To-K7-qzl" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="KZc-AW-77m" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3284" y="416"/>
+            <point key="canvasLocation" x="3415" y="416"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="M1u-kb-4Td">
@@ -187,7 +187,7 @@
                                 <rect key="frame" x="290" y="290" width="20" height="20"/>
                             </activityIndicatorView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WMN-vH-oxr">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="8so-xL-06Z" appends="YES" id="YfL-ez-xcY"/>
@@ -196,12 +196,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="WMN-vH-oxr" secondAttribute="trailing" id="GJa-24-Pub"/>
-                            <constraint firstItem="WMN-vH-oxr" firstAttribute="bottom" secondItem="hOU-Ad-duT" secondAttribute="bottom" id="aNE-Rn-u8b"/>
-                            <constraint firstAttribute="centerY" secondItem="Lgw-Ej-x6W" secondAttribute="centerY" id="bTc-ob-Bmw"/>
-                            <constraint firstItem="WMN-vH-oxr" firstAttribute="top" secondItem="M5o-GA-Ynt" secondAttribute="top" id="ibD-Wo-aKE"/>
-                            <constraint firstAttribute="centerX" secondItem="Lgw-Ej-x6W" secondAttribute="centerX" id="ubJ-jO-umB"/>
-                            <constraint firstItem="WMN-vH-oxr" firstAttribute="leading" secondItem="M5o-GA-Ynt" secondAttribute="leading" id="wga-hN-G1H"/>
+                            <constraint firstAttribute="trailing" secondItem="WMN-vH-oxr" secondAttribute="trailing" id="6G1-Rb-Y3X"/>
+                            <constraint firstItem="Lgw-Ej-x6W" firstAttribute="centerY" secondItem="WMN-vH-oxr" secondAttribute="centerY" id="7eo-cO-Q9K"/>
+                            <constraint firstItem="WMN-vH-oxr" firstAttribute="bottom" secondItem="hOU-Ad-duT" secondAttribute="top" id="AHh-94-JD1"/>
+                            <constraint firstItem="Lgw-Ej-x6W" firstAttribute="centerX" secondItem="WMN-vH-oxr" secondAttribute="centerX" id="R1H-MA-71g"/>
+                            <constraint firstItem="WMN-vH-oxr" firstAttribute="leading" secondItem="M5o-GA-Ynt" secondAttribute="leading" id="Udy-S5-lTb"/>
+                            <constraint firstItem="WMN-vH-oxr" firstAttribute="top" secondItem="M5o-GA-Ynt" secondAttribute="top" id="ePP-GV-UHe"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="jNT-yi-E1y"/>
@@ -218,25 +218,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="4861" y="416"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="jyl-WO-wzh">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ukk-GT-Pic" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wme-2x-1xR">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="uVs-mM-hG4" kind="relationship" relationship="rootViewController" id="v7I-Yz-7TA"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="AQa-8e-M0q" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4070" y="416"/>
+            <point key="canvasLocation" x="4130" y="416"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="3Pa-MS-Quz">
