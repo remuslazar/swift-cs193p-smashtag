@@ -68,13 +68,6 @@ class ImageViewController: UIViewController, UIScrollViewDelegate
         }
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        if (!userDidDragOrScroll && scrollView != nil && imageView.image != nil) {
-            scaleContentPanAndScan()
-        }
-    }
-    
     // UIScrollViewDelegate method
     // required for zooming
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
@@ -152,12 +145,27 @@ class ImageViewController: UIViewController, UIScrollViewDelegate
         }
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        parentViewController?.navigationController?.navigationBar.hidden = true
+        parentViewController?.tabBarController?.tabBar.hidden = true
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if (!userDidDragOrScroll && scrollView != nil && imageView.image != nil) {
+            scaleContentPanAndScan()
+        }
+    }
+    
     // put our imageView into the view hierarchy
     // as a subview of the scrollView
     // (will install it into the content area of the scroll view)
     override func viewDidLoad() {
         super.viewDidLoad()
         scrollView.addSubview(imageView)
+        view.addGestureRecognizer(doubleTapGestureRecognizer)
+
     }
     
     // for efficiency, we will only actually fetch the image
@@ -168,4 +176,39 @@ class ImageViewController: UIViewController, UIScrollViewDelegate
             fetchImage()
         }
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        parentViewController?.navigationController?.navigationBar.hidden = false
+        parentViewController?.tabBarController?.tabBar.hidden = false
+    }
+    
+    private let doubleTapGestureRecognizer: UITapGestureRecognizer = {
+        let recognizer = UITapGestureRecognizer()
+        recognizer.numberOfTapsRequired = 2
+        return recognizer
+    }()
+    
+    @IBOutlet weak var tapGestureRecognizer: UITapGestureRecognizer! {
+        didSet {
+            tapGestureRecognizer.numberOfTapsRequired = 1
+            tapGestureRecognizer.requireGestureRecognizerToFail(doubleTapGestureRecognizer)
+        }
+    }
+    
+    private func toggleFullScreen() {
+//        scrollView.bounds = UIScreen.mainScreen().bounds
+        if let tabBar = parentViewController?.tabBarController?.tabBar {
+            parentViewController?.navigationController?.navigationBar.hidden = !tabBar.hidden
+            tabBar.hidden = !tabBar.hidden
+        }
+        scrollView.setNeedsLayout()
+    }
+    
+    @IBAction func tapGesture(sender: UITapGestureRecognizer) {
+        if sender.state == UIGestureRecognizerState.Ended {
+            toggleFullScreen()
+        }
+    }
+    
 }

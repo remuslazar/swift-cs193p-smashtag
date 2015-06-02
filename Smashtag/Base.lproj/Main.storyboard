@@ -174,40 +174,49 @@
         <!--Image View Controller-->
         <scene sceneID="yho-wg-tDv">
             <objects>
-                <viewController id="uVs-mM-hG4" customClass="ImageViewController" customModule="Smashtag" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="uVs-mM-hG4" customClass="ImageViewController" customModule="Smashtag" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4Ed-Qf-dAU"/>
                         <viewControllerLayoutGuide type="bottom" id="hOU-Ad-duT"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="M5o-GA-Ynt">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Lgw-Ej-x6W">
-                                <rect key="frame" x="290" y="258" width="20" height="20"/>
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
                             </activityIndicatorView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WMN-vH-oxr">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="8so-xL-06Z" appends="YES" id="YfL-ez-xcY"/>
+                                </connections>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="WMN-vH-oxr" secondAttribute="trailing" id="GJa-24-Pub"/>
-                            <constraint firstItem="WMN-vH-oxr" firstAttribute="bottom" secondItem="hOU-Ad-duT" secondAttribute="top" id="aNE-Rn-u8b"/>
+                            <constraint firstItem="WMN-vH-oxr" firstAttribute="bottom" secondItem="hOU-Ad-duT" secondAttribute="bottom" id="aNE-Rn-u8b"/>
                             <constraint firstAttribute="centerY" secondItem="Lgw-Ej-x6W" secondAttribute="centerY" id="bTc-ob-Bmw"/>
                             <constraint firstItem="WMN-vH-oxr" firstAttribute="top" secondItem="M5o-GA-Ynt" secondAttribute="top" id="ibD-Wo-aKE"/>
                             <constraint firstAttribute="centerX" secondItem="Lgw-Ej-x6W" secondAttribute="centerX" id="ubJ-jO-umB"/>
                             <constraint firstItem="WMN-vH-oxr" firstAttribute="leading" secondItem="M5o-GA-Ynt" secondAttribute="leading" id="wga-hN-G1H"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="jNT-yi-E1y"/>
                     <connections>
                         <outlet property="scrollView" destination="WMN-vH-oxr" id="s3r-Hj-Bvy"/>
                         <outlet property="spinner" destination="Lgw-Ej-x6W" id="Cmi-er-z7f"/>
+                        <outlet property="tapGestureRecognizer" destination="8so-xL-06Z" id="bmb-o8-NIO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dJ4-s8-4Dw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="8so-xL-06Z">
+                    <connections>
+                        <action selector="tapGesture:" destination="uVs-mM-hG4" id="OmX-v8-cJ8"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="4861" y="416"/>
         </scene>
