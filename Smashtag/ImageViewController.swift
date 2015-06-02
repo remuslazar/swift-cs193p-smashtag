@@ -116,7 +116,7 @@ class ImageViewController: UIViewController, UIScrollViewDelegate
         
         // set it to the scaleFactor, but also allow 1:1 zooming, if the image is highres
         // this allows also lowres images to be displayed full-screen
-        scrollView.maximumZoomScale = max(1.0, scaleFactor)
+//        scrollView.maximumZoomScale = max(1.0, scaleFactor)
 
         // dont allow to zoom our more than letterbox aspect ratio
         scrollView.minimumZoomScale = minimumZoomScale
